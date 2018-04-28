@@ -42,6 +42,7 @@ contract InvalidOpcode {
 
    event questionPosted(string userQuestion, address questionAsker);
    event bountyAdded(uint _questionID, string answer);
+
   function postQuestion(string _q) payable public {
     _setIsActive(msg.sender);
     Question memory q;
@@ -49,6 +50,7 @@ contract InvalidOpcode {
     q.asker = msg.sender;
     q.bounty =  msg.value;
     questions.push(q);
+    questionPosted(_q ,msg.sender);
   }
   function addBounty(uint _questionID) public payable {
     questions[_questionID].bounty += msg.value;
