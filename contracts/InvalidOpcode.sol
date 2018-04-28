@@ -16,6 +16,8 @@ contract InvalidOpcode {
 
   // Structs
   struct Question {
+    bool paid;
+    uint created_block;
     string question_string;
     address asker;
     uint bounty;
@@ -82,8 +84,8 @@ contract InvalidOpcode {
     Question storage q = questions[_questionID];
 
     // Check if already paid out and that timelock satisfied
-    //require(q.paid == False);
-    //require(timelock
+    require(q.paid == False);
+    require(q.created_block + timelock < block.number)
     
     // iterate to find winning answer?
     // this sucks, but for just for today.
