@@ -5,18 +5,23 @@ contract InvalidOpcode {
   // Structs
 
   struct Question {
-
+    string question_string;
+    address asker;
+    int bounty;
+    int[] answers;
   }
 
   struct Answer {
-    bool
-
+    string answer_string;
+    address answerer;
+    uint question_id;
+    uint128 upvotes;
+    uint128 downvotes;
   }
-
   
   // Storage
   Question[] public questions;
-  
+  Answer[] public answers;
 
   function postQuestion() public {
 
