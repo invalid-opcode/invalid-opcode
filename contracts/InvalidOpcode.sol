@@ -3,7 +3,7 @@ pragma solidity ^0.4.17;
 
 contract InvalidOpcode {
   // Props
-event questionPosted();
+  event questionPosted(); 
 
   uint public timelock;
   int public defaultRep;
@@ -16,7 +16,6 @@ event questionPosted();
   }
 
   // Structs
-
   struct Question {
     string question_string;
     address asker;
@@ -37,14 +36,13 @@ event questionPosted();
     int reputation;
   }
 
-  
   // Storage
   Question[] public questions;
   Answer[] public answers;
   mapping(address => User) users;
 
-
   function postQuestion(string _q) payable public {
+    _setIsActive(msg.sender);
     Question memory q;
     q.question_string= _q;
     q.asker = msg.sender;
