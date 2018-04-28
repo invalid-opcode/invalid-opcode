@@ -1,0 +1,3 @@
+# INVALID OPCODE
+
+init
