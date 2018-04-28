@@ -1,6 +1,5 @@
 pragma solidity ^0.4.17;
 
-
 contract InvalidOpcode {
   // Props
   event questionPosted(); 
@@ -41,6 +40,8 @@ contract InvalidOpcode {
   Answer[] public answers;
   mapping(address => User) users;
 
+   event questionPosted(string userQuestion, address questionAsker);
+   event bountyAdded(uint _questionID, string answer);
   function postQuestion(string _q) payable public {
     _setIsActive(msg.sender);
     Question memory q;
@@ -49,9 +50,9 @@ contract InvalidOpcode {
     q.bounty =  msg.value;
     questions.push(q);
   }
-
-  function addBounty() payable public {
-
+  function addBounty(uint _questionID) public payable {
+    questions[_questionID].bounty += msg.value;
+    bountyAdded(_questionID, msg.value);
   }
 
   function postAnswer(uint _questionID, string answer) public {
@@ -63,7 +64,9 @@ contract InvalidOpcode {
   }
 
   function downVote(uint _answerID) public {
-
+    if() {
+    answers[_answerID].downvote += 1;
+    }
   }
 
   function claimBounty() public {
