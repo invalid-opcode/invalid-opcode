@@ -84,15 +84,15 @@ contract InvalidOpcode {
     Question storage q = questions[_questionID];
 
     // Check if already paid out and that timelock satisfied
-    require(q.paid == False);
-    require(q.created_block + timelock < block.number)
+    require(q.paid == false);
+    require(q.created_block + timelock < block.number);
     
     // iterate to find winning answer?
     // this sucks, but for just for today.
     uint best_index = 0;
     int best_value = INT256_MIN;
     uint arraylength = q.answers.length;
-    for (uint i=0; i<arrayLength; i++) {
+    for (uint i=0; i<arraylength; i++) {
         Answer storage tmp_a = answers[q.answers[i]];
 	int score = tmp_a.upvotes - tmp_a.downvotes;
 	if (score > best_value) {
@@ -106,13 +106,9 @@ contract InvalidOpcode {
     require(msg.sender == a.answerer);
 
     // Flag paid first to prevent reentrancy, then pay.
-    q.paid == True;
+    q.paid == true;
     msg.sender.transfer(q.bounty);
     }
-      
-      
-
-  }
 
   function _setVoted(address _voter, uint _qId, uint _aId) internal {
     voted[_voter][_qId][_aId] = true;
