@@ -1,9 +1,9 @@
 pragma solidity ^0.4.17;
 
-event questionPosted();
 
 contract InvalidOpcode {
   // Props
+event questionPosted();
 
   uint public timelock;
   int public defaultRep;
@@ -20,8 +20,8 @@ contract InvalidOpcode {
   struct Question {
     string question_string;
     address asker;
-    int bounty;
-    int[] answers;
+    uint bounty;
+    uint[] answers;
   }
 
   struct Answer {
@@ -41,15 +41,19 @@ contract InvalidOpcode {
   // Storage
   Question[] public questions;
   Answer[] public answers;
-mapping(address => User) users;
+  mapping(address => User) users;
 
-  function postQuestion(string _question) public payable {
-    questions.push(_question);
 
+  function postQuestion(string _q) payable public {
+    Question memory q;
+    q.question_string= _q;
+    q.asker = msg.sender;
+    q.bounty =  msg.value;
+    questions.push(q);
   }
 
-  function addBounty(uint _questionID) public payable {
-    questions[_questionID].ethValue = msg.value;
+  function addBounty() payable public {
+
   }
 
   function postAnswer(uint _questionID, string answer) public {
