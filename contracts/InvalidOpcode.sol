@@ -40,8 +40,10 @@ contract InvalidOpcode {
   Answer[] public answers;
   mapping(address => User) users;
 
+  mapping (address => mapping(uint /* qID */ => mapping(uint /* aId */ => bool))) voted;
+
    event questionPosted(string userQuestion, address questionAsker);
-   event bountyAdded(uint _questionID, string answer);
+   event bountyAdded(uint _questionID, uint _value);
 
   function postQuestion(string _q) payable public {
     _setIsActive(msg.sender);
@@ -52,9 +54,10 @@ contract InvalidOpcode {
     questions.push(q);
     questionPosted(_q ,msg.sender);
   }
+
   function addBounty(uint _questionID) public payable {
     questions[_questionID].bounty += msg.value;
-    bountyAdded(_questionID, msg.value);
+    emit bountyAdded(_questionID, msg.value);
   }
 
   function postAnswer(uint _questionID, string answer) public {
@@ -62,17 +65,21 @@ contract InvalidOpcode {
   }
 
   function upVote(uint _answerID) public {
-
   }
 
   function downVote(uint _answerID) public {
-    if() {
-    answers[_answerID].downvote += 1;
+    if(voted[msg.sender][answers[_answerID].question_id][_answerID]) {
+      answers[_answerID].downvotes += 1;
+      _setVoted(msg.sender, answers[_answerID].question_id, _answerID);
     }
   }
 
   function claimBounty() public {
 
+  }
+
+  function _setVoted(address _voter, uint _qId, uint _aId) internal {
+    voted[_voter][_qId][_aId] = true;
   }
 
   function _setIsActive(address user) internal {
