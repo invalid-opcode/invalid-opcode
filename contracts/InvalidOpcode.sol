@@ -75,6 +75,7 @@ contract InvalidOpcode {
   }
 
   function upVote(uint _answerID) public {
+    require(users[msg.sender].is_active);
     if(voted[msg.sender][answers[_answerID].question_id][_answerID]) {
       answers[_answerID].upvotes += 1;
       _setVoted(msg.sender, answers[_answerID].question_id, _answerID);
@@ -82,6 +83,7 @@ contract InvalidOpcode {
   }
 
   function downVote(uint _answerID) public {
+    require(users[msg.sender].is_active);    
     if(voted[msg.sender][answers[_answerID].question_id][_answerID]) {
       answers[_answerID].downvotes += 1;
       _setVoted(msg.sender, answers[_answerID].question_id, _answerID);
