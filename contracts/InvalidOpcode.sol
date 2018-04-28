@@ -8,7 +8,7 @@ contract InvalidOpcode {
 
   //
 
-  constructor(uint _timelock, uint _defaultRep) {
+  constructor(uint _timelock, int _defaultRep) {
     timelock = _timelock;
     defaultRep = _defaultRep;
   }
