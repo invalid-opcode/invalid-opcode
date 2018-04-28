@@ -54,7 +54,7 @@ contract InvalidOpcode {
     q.asker = msg.sender;
     q.bounty =  msg.value;
     questions.push(q);
-    questionPosted(_q ,msg.sender);
+    emit questionPosted(_q ,msg.sender);
   }
 
   function addBounty(uint _questionID) public payable {
@@ -67,6 +67,10 @@ contract InvalidOpcode {
   }
 
   function upVote(uint _answerID) public {
+    if(voted[msg.sender][answers[_answerID].question_id][_answerID]) {
+      answers[_answerID].upvotes += 1;
+      _setVoted(msg.sender, answers[_answerID].question_id, _answerID);
+    }
   }
 
   function downVote(uint _answerID) public {
