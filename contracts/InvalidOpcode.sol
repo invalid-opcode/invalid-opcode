@@ -1,5 +1,7 @@
 pragma solidity ^0.4.17;
 
+event questionPosted();
+
 contract InvalidOpcode {
   // Props
 
@@ -26,7 +28,7 @@ contract InvalidOpcode {
     address answerer;
     uint question_id;
     uint128 upvotes;
-    uint128 downvotes;
+    uint128 downvotes; 
   }
   
   // Storage
@@ -41,29 +43,28 @@ contract InvalidOpcode {
 
   mapping(address => User) users;
 
-
-  function postQuestion() public {
-
-  }
-
-  function addBounty() public {
+  function postQuestion(string _question) public payable {
+    questions.push(_question);
 
   }
 
-  function postAnswer() public {
+  function addBounty(uint _questionID) public payable {
+    questions[_questionID].ethValue = msg.value;
+  }
+
+  function postAnswer(uint _questionID, string answer) public {
 
   }
 
-  function upVote() public {
+  function upVote(uint _answerID) public {
 
   }
 
-  function downVote() public {
+  function downVote(uint _answerID) public {
 
   }
 
   function claimBounty() public {
-
 
   }
 
