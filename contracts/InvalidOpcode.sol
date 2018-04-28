@@ -9,7 +9,7 @@ contract InvalidOpcode {
 
   //
 
-  constructor(uint _timelock, int _defaultRep) {
+  constructor(uint _timelock, int _defaultRep) public {
     timelock = _timelock;
     defaultRep = _defaultRep;
   }
@@ -45,6 +45,8 @@ contract InvalidOpcode {
   mapping (address => mapping(uint /* qID */ => mapping(uint /* aId */ => bool))) voted;
 
    event questionPosted(string userQuestion, address questionAsker);
+   event answerPosted(uint _questionID, string answer, address questionAsker);
+   
    event bountyAdded(uint _questionID, uint _value);
 
   function postQuestion(string _q) payable public {
@@ -63,7 +65,13 @@ contract InvalidOpcode {
   }
 
   function postAnswer(uint _questionID, string answer) public {
-
+    _setIsActive(msg.sender);
+    Answer memory a;
+    a.answer_string= answer;
+    a.answerer = msg.sender;
+    a.question_id =  _questionID;
+    answers.push(a);
+    emit answerPosted(_questionID, answer, msg.sender);
   }
 
   function upVote(uint _answerID) public {
