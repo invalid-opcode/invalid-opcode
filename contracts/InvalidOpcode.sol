@@ -64,7 +64,41 @@ contract InvalidOpcode {
 
   }
 
-  function claimBounty() public {
+
+  int256 constant INT256_MIN = int256((uint256(1) << 255));
+  
+  function claimBounty(uint _questionID) public {
+    // Load Question
+    Question storage q = questions[_questionID];
+
+    // Check if already paid out and that timelock satisfied
+    //require(q.paid == False);
+    //require(timelock
+    
+    // iterate to find winning answer?
+    // this sucks, but for just for today.
+    uint best_index = 0;
+    int best_value = INT256_MIN;
+    uint arraylength = q.answers.length;
+    for (uint i=0; i<arrayLength; i++) {
+        Answer storage tmp_a = answers[q.answers[i]];
+	int score = tmp_a.upvotes - tmp_a.downvotes;
+	if (score > best_value) {
+	  best_index = i;
+	  best_value = score;
+	}
+    }
+
+    // Check this is being called by the correct answerer
+    Answer storage a = answers[q.answers[best_index]];
+    require(msg.sender == a.answerer);
+
+    // Flag paid first to prevent reentrancy, then pay.
+    q.paid == True;
+    msg.sender.transfer(q.bounty);
+    }
+      
+      
 
   }
 
