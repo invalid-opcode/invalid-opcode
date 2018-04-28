@@ -1,6 +1,17 @@
 pragma solidity ^0.4.17;
 
 contract InvalidOpcode {
+  // Props
+
+  uint public timelock;
+  int public defaultRep;
+
+  //
+
+  constructor(uint _timelock, uint _defaultRep) {
+    timelock = _timelock;
+    defaultRep = _defaultRep;
+  }
 
   // Structs
 
@@ -18,10 +29,19 @@ contract InvalidOpcode {
     uint128 upvotes;
     uint128 downvotes;
   }
+
+  struct User {
+    bool is_active;
+    int reputation;
+  }
+
   
   // Storage
   Question[] public questions;
   Answer[] public answers;
+
+  mapping(address => User) users;
+
 
   function postQuestion() public {
 
@@ -43,10 +63,15 @@ contract InvalidOpcode {
 
   }
 
-  function claimBount() public {
+  function claimBounty() public {
 
 
   }
 
-
+  function _setIsActive(address user) internal {
+    if (!users[user].is_active) {
+      users[user].is_active = true;
+      users[user].reputation = defaultRep;
+    }
+   }
 }
