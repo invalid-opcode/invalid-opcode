@@ -9,7 +9,7 @@ contract InvalidOpcode {
   }
 
   struct Answer {
-    bool
+    bool z;
 
   }
 
@@ -18,16 +18,16 @@ contract InvalidOpcode {
   Question[] public questions;
   
 
-  function postQuestion() public {
-
+  function postQuestion(string _question) public payable {
+    questions.push(_question);
   }
 
-  function addBounty() public {
-
+  function addBounty(uint _questionID) public payable {
+    questions[_questionID].ethValue = msg.value;
   }
 
   function postAnswer() public {
-
+    
   }
 
   function upVote() public {
